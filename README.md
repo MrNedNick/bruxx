@@ -13,13 +13,15 @@ beef tallow, more than sixty Belgian beers and Liège waffles.
 - **Live menu.** The restaurant keeps its menu in Menubot. The site renders a
   snapshot instantly and then swaps in the live data: today's lunch menu, the
   full food, drinks and wine list, and the beer list — in Czech and English.
+- **Honest freshness.** Lunch, dishes and beer each show whether their own data
+  is live or a saved snapshot, with a dated fallback and an original-site link.
 - **Menu tools.** Sticky category bar that follows the scroll, accent-insensitive
   search, and an allergen filter that hides dishes containing any of the
   fourteen EU allergens.
 - **Beer finder.** The beer list filtered by style and strength and sorted by
   strength or price, next to the general manager's own recommendations.
-- **Booking.** The restaurant's Bookio widget in a dialog, opened from every page
-  and from the old `#rezervace` links.
+- **Booking.** The restaurant's Bookio widget, visible mobile booking action,
+  separate-window and phone alternatives, and working `#rezervace` deep links.
 - **Lunch menu by e-mail.** Subscribes through the same Menubot endpoint as the
   current site.
 - **Three languages.** Czech, English and German, each page with its own URL
@@ -30,10 +32,24 @@ beef tallow, more than sixty Belgian beers and Liège waffles.
 - **Chef's recipes** with a servings stepper that rescales the ingredients.
 - **Light and dark theme**, reduced-motion support, and layouts down to 360 px.
 
+## Guest experience
+
+The redesign keeps the restaurant’s photography, food stories and existing
+booking/menu providers while making the most common tasks easier to reach:
+choose lunch, find a beer, book a table or get directions. The home page adds
+direct shortcuts, the menu offers recovery from an empty search, and family
+and seasonal sections link back to the restaurant’s current information.
+
+## Documentation
+
+- [Content map and handover](docs/content-and-handover.md): original-site comparison, editing locations and integration behavior.
+- [Operations](docs/operations.md): local setup, GitHub Pages, checks and troubleshooting.
+- [Roadmap](docs/roadmap.md): delivered work, next improvements and domain-launch decisions.
+
 ## Stack
 
 Vue 3, Vue Router, Vite. Self-hosted variable fonts (Archivo, Hanken Grotesk,
-Fraunces). No UI framework and no tracking; Google Maps and YouTube load only
+Fraunces). No UI framework and no first-party analytics; Google Maps and YouTube load only
 when the visitor asks for them.
 
 ## How the live menu works
@@ -48,7 +64,7 @@ workflow runs it every morning.
 ## Develop
 
 ```bash
-npm install
+npm ci
 npm run dev        # http://localhost:5173
 npm test           # parser, content, hours, filters, recipes
 npm run menu:sync  # refresh the menu snapshot from Menubot
@@ -64,6 +80,12 @@ A push to `main` runs the tests, builds and publishes to GitHub Pages
 menu snapshot.
 
 ## Content
+
+This is a separately published preview, not a replacement of the restaurant’s
+production domain. Children’s prices and current events remain linked to their
+authoritative pages. Provider forms require a real-world confirmation check
+with the restaurant before a domain launch.
+
 
 Texts, photos and the privacy policy are those of bruxx.cz and belong to the
 restaurant; the German translation is new. The page carries `noindex` while
