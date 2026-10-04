@@ -4,6 +4,7 @@ import { fmt, useContent } from '../i18n'
 import { useMenu } from '../lib/live-menu'
 import { beerStrength } from '../lib/menu-filter'
 import BasePhoto from '../components/BasePhoto.vue'
+import MenuSource from '../components/MenuSource.vue'
 import MenuItem from '../components/MenuItem.vue'
 import PageHero from '../components/PageHero.vue'
 
@@ -28,7 +29,9 @@ const beers = computed(() => {
 
 <template>
   <div class="beer-page">
-    <PageHero photo="duo-glasses" :eyebrow="c.beer.eyebrow" :title="c.beer.title" :lead="c.beer.lead" />
+    <PageHero photo="duo-glasses" :eyebrow="c.beer.eyebrow" :title="c.beer.title" :lead="c.beer.lead">
+      <a class="btn btn--light explorer-link" href="#pivni-listek">{{ c.visitTools.explorer }} ↓</a>
+    </PageHero>
 
     <section class="section intro">
       <div class="container intro-grid">
@@ -71,6 +74,8 @@ const beers = computed(() => {
           <p v-reveal="140" class="lead">{{ c.beer.explorer.lead }}</p>
         </header>
 
+        <MenuSource :menu="menu" part="beer" />
+        <p v-if="c.menu.langNote" class="muted">{{ c.menu.langNote }}</p>
         <div class="filters">
           <div class="chips" role="group" :aria-label="c.beer.explorer.eyebrow">
             <button type="button" class="chip" :aria-pressed="style === 'all'" @click="style = 'all'">
@@ -117,6 +122,8 @@ const beers = computed(() => {
 </template>
 
 <style scoped>
+.explorer-link { margin-top: 24px; }
+
 .intro-grid {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);

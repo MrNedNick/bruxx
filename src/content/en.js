@@ -28,6 +28,19 @@ export default {
     main: 'Main navigation',
   },
 
+  visitTools: {
+    "quick": "Plan your visit",
+    "check": "Checking the latest menu…",
+    "fallback": "The live menu could not be loaded. The displayed menu may have changed.",
+    "original": "Menu on the restaurant website",
+    "reset": "Clear search and filters",
+    "booking": "Open booking in a new window",
+    "kids": "Children’s menu and prices",
+    "events": "Current events at Bruxx",
+    "explorer": "Find your beer",
+    "unknown": "We could not confirm your subscription. Please check your email or try again later."
+},
+
   status: {
     openUntil: 'Open until {t}',
     opensToday: 'Opens today at {t}',
@@ -84,7 +97,7 @@ export default {
     },
     lunch: {
       eyebrow: 'Lunch menu',
-      title: 'today’s lunch',
+      title: "the lunch menu",
       hours: 'Mon–Fri · 11:00–15:00 or until sold out',
       weekend: 'On Saturdays, Sundays and public holidays we do not prepare a daily menu — please choose from the regular menu.',
       empty: 'Today’s lunch menu is on its way.',
@@ -139,7 +152,7 @@ export default {
   menu: {
     eyebrow: 'Food and drinks',
     title: 'menu',
-    lead: 'Belgian recipes, mussels fresh three times a week and a home-made baguette with every dish, on the house.',
+    lead: 'Belgian recipes, mussels fresh three times a week and a home-made baguette with your mussels, on the house.',
     tabs: { lunch: 'Lunch', food: 'Food', drinks: 'Drinks', wine: 'Wine', beer: 'Beer' },
     search: 'Search the menu',
     searchPlaceholder: 'Mussels, Kwak, waffle…',

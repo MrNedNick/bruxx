@@ -192,7 +192,7 @@ function reserve() {
   -webkit-backdrop-filter: none;
 }
 
-.site-header.is-hidden {
+.site-header.is-hidden:not(:focus-within) {
   transform: translateY(-100%);
 }
 
@@ -438,13 +438,16 @@ function reserve() {
 }
 
 @media (max-width: 560px) {
-  .tools .langs,
-  .reserve {
+  .tools .langs {
     display: none;
   }
 
+  .bar { gap: 8px; }
+  .tools { gap: 2px; }
+  .reserve { margin-left: 0; padding-inline: 12px; min-height: 44px; }
+
   .logo {
-    width: 92px;
+    width: 80px;
   }
 }
 </style>

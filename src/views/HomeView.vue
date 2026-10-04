@@ -62,6 +62,12 @@ const DISHES = [
       </a>
     </section>
 
+    <nav class="visit-shortcuts container" :aria-label="c.visitTools.quick">
+      <RouterLink :to="{ path: pathFor('menu'), query: { tab: 'lunch' } }"><BaseIcon name="clock" />{{ c.menu.lunchTitle }}</RouterLink>
+      <RouterLink :to="{ path: pathFor('beer'), hash: '#pivni-listek' }">{{ c.visitTools.explorer }} <BaseIcon name="arrow" /></RouterLink>
+      <a :href="MAPS_URL" target="_blank" rel="noopener"><BaseIcon name="pin" />{{ c.home.visit.route }}</a>
+    </nav>
+
     <WordMarquee :words="c.home.marquee" />
 
     <!-- Four cornerstones -->
@@ -194,6 +200,7 @@ const DISHES = [
           </article>
         </div>
         <div v-reveal class="follow">
+          <a class="btn" href="https://www.bruxx.cz/akce/" target="_blank" rel="noopener">{{ c.visitTools.events }} <BaseIcon name="external" /></a>
           <a class="btn btn--ghost" :href="SOCIAL.instagram" target="_blank" rel="noopener"><BaseIcon name="instagram" /> @bruxx_prague</a>
           <a class="btn btn--ghost" :href="SOCIAL.facebook" target="_blank" rel="noopener"><BaseIcon name="facebook" /> restauracebruxx</a>
         </div>
@@ -256,6 +263,12 @@ const DISHES = [
 </template>
 
 <style scoped>
+.visit-shortcuts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding-block: 20px; gap: 12px; }
+.visit-shortcuts a { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 56px; padding: 12px; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); text-decoration: none; font-weight: 600; }
+.visit-shortcuts a:hover { background: var(--surface); color: var(--accent); }
+.visit-shortcuts svg { width: 20px; flex: none; }
+@media (max-width: 560px) { .visit-shortcuts { grid-template-columns: 1fr; gap: 8px; } .visit-shortcuts a { justify-content: space-between; } }
+
 /* ---------- Hero ---------- */
 .hero {
   position: relative;

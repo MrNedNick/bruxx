@@ -29,6 +29,19 @@ export default {
     main: 'Hauptnavigation',
   },
 
+  visitTools: {
+    "quick": "Planen Sie Ihren Besuch",
+    "check": "Die aktuelle Karte wird geprüft…",
+    "fallback": "Die aktuelle Karte konnte nicht geladen werden. Das angezeigte Angebot kann abweichen.",
+    "original": "Karte auf der Restaurantwebsite",
+    "reset": "Suche und Filter zurücksetzen",
+    "booking": "Reservierung in neuem Fenster öffnen",
+    "kids": "Kinderkarte und Preise",
+    "events": "Aktuelle Veranstaltungen im Bruxx",
+    "explorer": "Bier auswählen",
+    "unknown": "Ihre Anmeldung konnte nicht bestätigt werden. Bitte prüfen Sie Ihr Postfach oder versuchen Sie es später erneut."
+},
+
   status: {
     openUntil: 'Geöffnet bis {t}',
     opensToday: 'Öffnet heute um {t}',
@@ -85,7 +98,7 @@ export default {
     },
     lunch: {
       eyebrow: 'Mittagsmenü',
-      title: 'heute mittag',
+      title: "das Mittagsmenü",
       hours: 'Mo–Fr · 11:00–15:00 oder solange der Vorrat reicht',
       weekend: 'Samstags, sonntags und an Feiertagen gibt es kein Tagesmenü — bitte wählen Sie aus der ständigen Karte.',
       empty: 'Das heutige Mittagsmenü ist unterwegs.',
@@ -140,7 +153,7 @@ export default {
   menu: {
     eyebrow: 'Speisen und Getränke',
     title: 'speisekarte',
-    lead: 'Belgische Rezepte, dreimal pro Woche frische Muscheln und zu jedem Gericht ein hausgemachtes Baguette gratis.',
+    lead: 'Belgische Rezepte, dreimal pro Woche frische Muscheln und zu den Muscheln ein hausgemachtes Baguette gratis.',
     tabs: { lunch: 'Mittag', food: 'Speisen', drinks: 'Getränke', wine: 'Wein', beer: 'Bier' },
     search: 'Speisekarte durchsuchen',
     searchPlaceholder: 'Muscheln, Kwak, Waffel…',

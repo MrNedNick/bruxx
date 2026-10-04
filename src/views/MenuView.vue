@@ -7,10 +7,11 @@ import { filterCategories } from '../lib/menu-filter'
 import { headerHidden } from '../lib/ui'
 import BaseIcon from '../components/BaseIcon.vue'
 import LunchMenu from '../components/LunchMenu.vue'
+import MenuSource from '../components/MenuSource.vue'
 import MenuItem from '../components/MenuItem.vue'
 import PageHero from '../components/PageHero.vue'
 
-const { c, locale, intl } = useContent()
+const { c, locale } = useContent()
 const route = useRoute()
 const router = useRouter()
 
@@ -40,17 +41,9 @@ const excluded = ref([])
 const filterOpen = ref(false)
 
 const categories = computed(() =>
-  filterCategories(data.value?.[tab.value] ?? [], { query: query.value, excluded: excluded.value }),
+  filterCategories(data.value?.[tab.value] ?? [], { query: query.value, excluded: tab.value === 'food' ? excluded.value : [] }),
 )
 const total = computed(() => categories.value.reduce((n, cat) => n + cat.items.length, 0))
-
-const sourceLabel = computed(() => {
-  if (menu.source.value === 'live') return c.value.menu.live
-  const at = menu.updatedAt.value
-  if (!at) return ''
-  const d = new Intl.DateTimeFormat(intl.value, { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(at))
-  return fmt(c.value.menu.snapshot, { d })
-})
 
 function toggleAllergen(n) {
   excluded.value = excluded.value.includes(n) ? excluded.value.filter((x) => x !== n) : [...excluded.value, n]
@@ -164,11 +157,8 @@ function jump(id) {
 
     <section :id="`panel-${tab}`" class="section section--tight" role="tabpanel" :aria-labelledby="`tab-${tab}`">
       <div class="container">
-        <p class="source">
-          <span class="source-dot" :class="{ live: menu.source.value === 'live' }" aria-hidden="true" />
-          {{ sourceLabel }}
-          <span v-if="tab !== 'lunch' && data" class="muted">· {{ fmt(c.menu.items, { n: total }) }}</span>
-        </p>
+        <MenuSource v-if="tab !== 'lunch'" :menu="menu" :part="tab === 'beer' ? 'beer' : 'dishes'" />
+        <p v-if="tab !== 'lunch' && data" class="source" role="status">{{ fmt(c.menu.items, { n: total }) }}</p>
         <p v-if="c.menu.langNote" class="lang-note muted">{{ c.menu.langNote }}</p>
 
         <template v-if="tab === 'lunch'">
@@ -187,7 +177,10 @@ function jump(id) {
               <MenuItem v-for="(item, i) in cat.items" :key="item.name + i" :item="item" />
             </div>
           </section>
-          <p v-if="!categories.length" class="empty">{{ c.menu.none }}</p>
+          <div v-if="!categories.length" class="empty" role="status">
+            <p>{{ c.menu.none }}</p>
+            <button v-if="query || excluded.length" class="btn" type="button" @click="query = ''; excluded = []">{{ c.visitTools.reset }}</button>
+          </div>
         </template>
 
         <details v-if="tab === 'food' || tab === 'lunch'" class="legend">
@@ -396,18 +389,6 @@ function jump(id) {
   margin-bottom: 8px;
 }
 
-.source-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--brass);
-}
-
-.source-dot.live {
-  background: #3ecf8e;
-  box-shadow: 0 0 0 4px rgb(62 207 142 / 0.2);
-}
-
 .lang-note {
   font-size: 0.86rem;
 }
@@ -448,6 +429,8 @@ function jump(id) {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: clamp(32px, 5vw, 72px);
 }
+
+.empty .btn { margin-top: 16px; }
 
 .empty {
   padding: 64px 0;

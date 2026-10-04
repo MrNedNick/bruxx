@@ -29,6 +29,7 @@ const PHOTOS = ['kids-balls', 'kids-tunnel', 'kids-blocks', 'kids-corner']
           <p v-reveal class="note muted">{{ c.kids.note }}</p>
           <div v-reveal class="actions">
             <button class="btn" type="button" @click="openReservation">{{ c.kids.cta }} <BaseIcon name="arrow" /></button>
+            <a class="btn btn--ghost" href="https://www.bruxx.cz/pro-deti/" target="_blank" rel="noopener">{{ c.visitTools.kids }} <BaseIcon name="external" /></a>
             <a class="link" :href="PARLAMENT" target="_blank" rel="noopener">Vinohradský parlament</a>
           </div>
         </div>

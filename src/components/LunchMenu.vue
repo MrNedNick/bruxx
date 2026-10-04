@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useContent } from '../i18n'
 import { useMenu } from '../lib/live-menu'
+import MenuSource from './MenuSource.vue'
 import MenuItem from './MenuItem.vue'
 import SubscribeForm from './SubscribeForm.vue'
 
@@ -15,6 +16,7 @@ const daily = computed(() => menu.value.data.value?.daily)
 <template>
   <div class="lunch">
     <div class="list">
+      <MenuSource :menu="menu" part="daily" />
       <p class="day display">
         <span v-if="daily?.day">{{ daily.day }}</span>
         <span v-else class="skeleton" />

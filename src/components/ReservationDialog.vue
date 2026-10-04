@@ -18,7 +18,7 @@ watch(reservationOpen, async (open) => {
   if (!d) return
   if (open && !d.open) d.showModal()
   if (!open && d.open) d.close()
-})
+}, { immediate: true })
 
 watch(src, () => (loaded.value = false))
 
@@ -54,6 +54,7 @@ function onClick(e) {
         />
       </div>
       <footer class="foot">
+        <a class="link booking-external" :href="bookingUrl(locale)" target="_blank" rel="noopener">{{ c.visitTools.booking }} <BaseIcon name="external" /></a>
         <span>{{ c.reservation.phone }}</span>
         <a class="link" :href="PHONE_HREF"><BaseIcon name="phone" /> {{ PHONE }}</a>
       </footer>
@@ -132,7 +133,7 @@ function onClick(e) {
 
 .frame iframe {
   width: 100%;
-  height: min(640px, calc(100dvh - 190px));
+  height: min(640px, calc(100dvh - 240px));
   border: 0;
 }
 
@@ -156,6 +157,8 @@ function onClick(e) {
   color: var(--muted);
   border-top: 1px solid var(--line);
 }
+
+.booking-external { width: 100%; }
 
 .foot .link {
   display: inline-flex;

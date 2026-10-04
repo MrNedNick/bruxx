@@ -53,52 +53,52 @@ export const menuLang = (lang) => (lang === 'cs' ? 'cs' : 'en')
 
 const cache = {}
 
-/**
- * Reactive menu for a language: the build-time snapshot first, replaced part
- * by part with the live Menubot data as it arrives.
- * `source` is 'snapshot' until at least one live part has loaded, then 'live'.
- */
-export function useMenu(lang) {
-  const key = menuLang(lang)
-  if (cache[key]) return cache[key]
-
+/** Merge independent live exports without calling a cached section live. */
+export function createMenuState(loadSnapshot, loaders) {
   const state = {
     data: shallowRef(null),
-    source: ref('snapshot'),
+    parts: ref({}),
     loading: ref(true),
     updatedAt: ref(null),
   }
-  cache[key] = state
-
-  snapshots[key]().then((m) => {
+  const snapshotJob = loadSnapshot().then((m) => {
     const snap = m.default ?? m
-    // Live parts that already arrived win; the snapshot fills in the rest.
     state.data.value = { ...snap, ...(state.data.value ?? {}) }
-    if (state.source.value === 'snapshot') state.updatedAt.value = snap.syncedAt
+    state.updatedAt.value = snap.syncedAt
   })
-
-  const urls = menubotUrls(key)
-  const merge = (patch) => {
-    state.data.value = { ...(state.data.value ?? {}), ...patch }
-    state.source.value = 'live'
-    state.updatedAt.value = new Date().toISOString()
-  }
-
-  const jobs = [
-    captureScript(urls.dishes).then((html) => {
-      const parsed = splitDishes(parseStandardMenu(toRoot(html)))
-      if (parsed.food.length) merge(parsed)
-    }),
-    captureScript(urls.beer).then((html) => {
-      const beer = parseStandardMenu(toRoot(html))
-      if (beer.length) merge({ beer })
-    }),
-    captureScript(urls.daily).then((html) => {
-      const daily = parseDailyMenu(toRoot(html))
-      if (daily.day || daily.categories.length) merge({ daily: { ...daily, live: true } })
-    }),
-  ]
-  Promise.allSettled(jobs).then(() => (state.loading.value = false))
-
+  const jobs = Object.entries(loaders).map(async ([part, load]) => {
+    try {
+      const patch = await load()
+      if (!patch) throw new Error('Empty menu export')
+      state.data.value = { ...(state.data.value ?? {}), ...patch }
+      state.parts.value = { ...state.parts.value, [part]: 'live' }
+    } catch {
+      state.parts.value = { ...state.parts.value, [part]: 'snapshot' }
+    }
+  })
+  state.ready = Promise.allSettled([snapshotJob, ...jobs]).then(() => {
+    state.loading.value = false
+  })
   return state
+}
+
+export function useMenu(lang) {
+  const key = menuLang(lang)
+  if (cache[key]) return cache[key]
+  const urls = menubotUrls(key)
+  cache[key] = createMenuState(snapshots[key], {
+    dishes: async () => {
+      const parsed = splitDishes(parseStandardMenu(toRoot(await captureScript(urls.dishes))))
+      return ['food', 'drinks', 'wine'].every((part) => parsed[part].length) ? parsed : null
+    },
+    beer: async () => {
+      const beer = parseStandardMenu(toRoot(await captureScript(urls.beer)))
+      return beer.length ? { beer } : null
+    },
+    daily: async () => {
+      const daily = parseDailyMenu(toRoot(await captureScript(urls.daily)))
+      return daily.day || daily.categories.length ? { daily: { ...daily, live: true } } : null
+    },
+  })
+  return cache[key]
 }

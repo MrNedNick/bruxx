@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useContent } from '../i18n'
 
 // Posts to the same Menubot endpoint as the restaurant's current form, with
@@ -7,10 +7,12 @@ import { useContent } from '../i18n'
 // hidden frame; Menubot redirects to /subscribed.html?mail=added (or ?email=
 // for a bad address), which we can read because it is our own page.
 const props = defineProps({ subscribe: { type: Object, required: true } })
-const { c } = useContent()
+const { c, pathFor } = useContent()
+let timeout
+onUnmounted(() => clearTimeout(timeout))
 
 const email = ref('')
-const consent = ref(true)
+const consent = ref(false)
 const touched = ref('')
 const status = ref('')
 const busy = ref(false)
@@ -20,21 +22,24 @@ const landing = `${import.meta.env.BASE_URL}subscribed.html`
 function onSubmit() {
   busy.value = true
   status.value = ''
+  clearTimeout(timeout)
+  timeout = setTimeout(() => { busy.value = false; status.value = 'unknown' }, 15000)
 }
 
 function onFrameLoad() {
   if (!busy.value) return
   busy.value = false
+  clearTimeout(timeout)
   let search = ''
   try {
     search = frame.value.contentWindow.location.search
   } catch {
-    // Menubot answered on its own domain; the request still went through.
+    // Cross-origin responses cannot confirm whether the subscription succeeded.
   }
   if (/mail=added/.test(search)) status.value = 'added'
   else if (/email=/.test(search)) status.value = 'invalid'
-  else status.value = 'sent'
-  if (status.value !== 'invalid') email.value = ''
+  else status.value = 'unknown'
+  if (status.value === 'added') email.value = ''
 }
 
 // The old site linked back here with these flags after a redirect.
@@ -84,8 +89,9 @@ onMounted(() => {
       <input v-model="consent" type="checkbox" name="mbgdpr" required />
       <span>{{ c.subscribe.consent }}</span>
     </label>
+    <RouterLink class="privacy-link" :to="pathFor('privacy')">{{ c.footer.privacy }}</RouterLink>
     <p class="status" role="status" aria-live="polite">
-      <template v-if="status">{{ c.subscribe[status] }}</template>
+      <template v-if="status">{{ status === 'unknown' ? c.visitTools.unknown : c.subscribe[status] }}</template>
     </p>
     <iframe ref="frame" name="subscribe-frame" class="sr-only" tabindex="-1" title="subscribe" @load="onFrameLoad" />
   </form>
@@ -144,6 +150,8 @@ onMounted(() => {
   height: 18px;
   accent-color: var(--navy);
 }
+
+.privacy-link { font-size: 0.85rem; }
 
 .status {
   min-height: 1.4em;

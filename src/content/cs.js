@@ -29,6 +29,19 @@ export default {
     main: 'Hlavní navigace',
   },
 
+  visitTools: {
+    "quick": "Naplánujte si návštěvu",
+    "check": "Ověřujeme aktuální nabídku…",
+    "fallback": "Živou nabídku se nepodařilo načíst. Zobrazená nabídka se může lišit.",
+    "original": "Menu na webu restaurace",
+    "reset": "Zrušit hledání a filtry",
+    "booking": "Otevřít rezervaci v novém okně",
+    "kids": "Dětské menu a ceny",
+    "events": "Aktuální akce v Bruxxu",
+    "explorer": "Vybrat pivo",
+    "unknown": "Přihlášení se nepodařilo potvrdit. Zkontrolujte prosím e-mail nebo zkuste později."
+},
+
   status: {
     openUntil: 'Otevřeno do {t}',
     opensToday: 'Otevíráme dnes v {t}',
@@ -85,7 +98,7 @@ export default {
     },
     lunch: {
       eyebrow: 'Polední menu',
-      title: 'dnes v poledne',
+      title: "polední nabídka",
       hours: 'Po–Pá · 11:00–15:00 nebo do vyprodání',
       weekend: 'V sobotu, v neděli a ve státní svátky denní nabídku nepřipravujeme. Vyberte si, prosíme, ze stálého menu.',
       empty: 'Polední nabídka se právě připravuje.',
@@ -140,7 +153,7 @@ export default {
   menu: {
     eyebrow: 'Jídelní a nápojový lístek',
     title: 'menu',
-    lead: 'Belgické receptury, mušle třikrát týdně čerstvé a ke každému jídlu domácí bageta zdarma.',
+    lead: 'Belgické receptury, mušle třikrát týdně čerstvé a k mušlím domácí bageta zdarma.',
     tabs: { lunch: 'Polední menu', food: 'Jídla', drinks: 'Nápoje', wine: 'Vína', beer: 'Piva' },
     search: 'Hledat v menu',
     searchPlaceholder: 'Mušle, Kwak, vafle…',
