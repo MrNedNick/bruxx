@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Bruxx — belgická brasserie v Praze</title>
+    <meta name="description" content="Belgická brasserie na náměstí Míru v Praze: čerstvé mušle třikrát týdně, hranolky smažené v hovězím loji, přes 60 belgických piv a lutyšské vafle." />
+    <!-- A redesign preview: the live site at bruxx.cz stays the one search engines index. -->
+    <meta name="robots" content="noindex, follow" />
+    <meta name="theme-color" content="#022D77" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Bruxx" />
+    <meta property="og:title" content="Bruxx — belgická brasserie v Praze" />
+    <meta property="og:description" content="Mušle, hranolky, belgické pivo a vafle. Náměstí Míru 9, Praha 2." />
+    <meta property="og:image" content="%BASE_URL%og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      // Apply the saved or system theme before the first paint so nothing flashes.
+      try {
+        var t = localStorage.getItem('bruxx-theme')
+        if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        document.documentElement.dataset.theme = t
+      } catch (e) {
+        document.documentElement.dataset.theme = 'light'
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Restaurant",
+        "name": "Bruxx",
+        "description": "Belgická brasserie v centru Prahy",
+        "servesCuisine": ["Belgian", "Seafood"],
+        "telephone": "+420224250404",
+        "email": "info@bruxx.cz",
+        "url": "https://www.bruxx.cz/",
+        "priceRange": "$$",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Náměstí Míru 9",
+          "postalCode": "120 00",
+          "addressLocality": "Praha 2 - Vinohrady",
+          "addressCountry": "CZ"
+        },
+        "geo": { "@type": "GeoCoordinates", "latitude": 50.0754615, "longitude": 14.4380267 },
+        "openingHoursSpecification": [
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Sunday"], "opens": "11:30", "closes": "23:00" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday", "Wednesday"], "opens": "11:30", "closes": "23:30" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Thursday", "Friday", "Saturday"], "opens": "11:30", "closes": "24:00" }
+        ],
+        "acceptsReservations": true,
+        "sameAs": ["https://www.facebook.com/restauracebruxx/", "https://www.instagram.com/bruxx_prague/"]
+      }
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <noscript>
+      <p style="padding:2rem;font-family:sans-serif">
+        Bruxx, Náměstí Míru 9, Praha 2 · +420 224 250 404 · info@bruxx.cz
+      </p>
+    </noscript>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
